@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gross Stuff | Silly Moments</title>
+  <meta name="theme-color" content="#127490" />
+  <link rel="icon" type="image/png" href="gross-stuff-icon.png">
+  <link rel="apple-touch-icon" href="gross-stuff-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:#fff9f3;
+      --ink:#14323c;
+      --muted:#6b7f88;
+      --teal:#127490;
+      --teal2:#1690b4;
+      --rust:#b24627;
+      --rust2:#c95e3c;
+      --yellow:#f8b934;
+      --pink:#d94b7f;
+      --coral:#e86f5c;
+      --card:#ffffff;
+      --soft:#e4f3f7;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:'Poppins',sans-serif;min-height:100vh;padding:22px 24px 60px}
+    button{font-family:inherit}
+    .shell{max-width:960px;margin:0 auto}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .hub-button,.theme-back{display:inline-block;background:rgba(0,0,0,.75);color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
+    .circle-mode .hub-button{display:none!important}
+    .pack-header{text-align:center;margin:8px auto 22px}
+    .pack-icon{width:150px;height:150px;object-fit:contain;border-radius:24px;display:block;margin:0 auto 8px}
+    .pack-header h1{font-family:'Baloo 2',sans-serif;color:var(--teal);font-size:2rem;margin:0}
+    .pack-header p{margin:4px auto 0;color:#4c6670;max-width:620px}
+    .screen{display:none}
+    .screen.active{display:block}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+    .menu-card{border:0;border-radius:18px;padding:18px 16px;background:var(--teal);color:#fff;text-align:left;cursor:pointer;box-shadow:0 5px 16px rgba(0,0,0,.09);transition:.12s ease}
+    .menu-card:hover{transform:translateY(-2px);background:var(--teal2)}
+    .menu-card strong{display:block;font-size:1.08rem;margin-bottom:5px}
+    .menu-card span{font-size:.84rem;opacity:.86;line-height:1.35}
+    .game-header{text-align:center;margin:4px auto 12px}
+    .game-header h2{font-family:'Baloo 2',sans-serif;color:var(--teal);font-size:1.75rem;margin:6px 0 2px}
+    .game-header p{color:var(--muted);margin:0 auto;max-width:650px;font-size:.92rem}
+    .generator-card{max-width:860px;margin:18px auto;background:#fff;border-radius:20px;padding:18px;box-shadow:0 6px 22px rgba(0,0,0,.07)}
+    .prompt{margin:16px auto;font-size:1.2rem;line-height:1.5;padding:20px;background:#fff;border-radius:16px;border:2px dashed var(--yellow);min-height:125px;display:flex;align-items:center;justify-content:center;text-align:center}
+    .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:11px auto}
+    .btn{background:var(--rust);color:#fff;border:0;padding:12px 18px;border-radius:28px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+    .btn:hover{background:var(--rust2)}
+    .btn.secondary{background:#ffe9d6;color:#6b3a28}
+    .btn[disabled]{opacity:.45;cursor:not-allowed}
+    .favorites{max-width:860px;margin:22px auto 0;text-align:left}
+    .fav-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+    .fav-head h3{margin:0;color:#7a3e2e;font-size:1.05rem}
+    .fav-list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:9px}
+    .fav-item{background:#fff;border:1px solid #ffdcbf;border-radius:13px;padding:11px 13px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .fav-item button{border:0;background:#ffe9d6;color:#6b3a28;border-radius:9px;padding:6px 9px;cursor:pointer}
+    .muted{color:var(--muted);font-size:.88rem}
+    .slot-card{max-width:860px;margin:18px auto;background:var(--yellow);border-radius:28px;padding:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+    .slots{display:grid;grid-template-columns:1fr;gap:.7rem}
+    .slot{background:var(--pink);color:#fff9f3;border-radius:18px;padding:1rem .8rem;min-height:72px;display:grid;place-items:center;font-size:clamp(1.15rem,6vw,2.35rem);line-height:1;font-weight:800;text-transform:uppercase;word-break:break-word;text-align:center}
+    .slot:nth-child(2){background:var(--teal)} .slot:nth-child(3){background:var(--coral)}
+    .doodle-sentence{background:rgba(255,255,255,.92);border:2px dashed #fff;border-radius:18px;margin:1rem auto 0;padding:1rem;font-size:1.1rem;font-weight:600;color:#53322b}
+    .plot-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+    .plot-card{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(0,0,0,.07);padding:16px}
+    .plot-card h3{color:var(--rust2);margin:0 0 8px;font-size:1rem}
+    .plot-out{background:#fff;border:2px dashed #d7e3e8;border-radius:16px;padding:14px;min-height:74px;display:flex;align-items:center;font-weight:600}
+    .rec-card{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(0,0,0,.07);padding:16px;margin:14px 0}
+    .footer{text-align:center;color:#777;font-size:.78rem;margin-top:34px;line-height:1.5}
+    #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--teal);color:#fff;padding:9px 13px;border-radius:11px;opacity:0;pointer-events:none;transition:.2s;z-index:9999}
+    #toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+    @media(min-width:720px){.slots{grid-template-columns:1fr 1fr 1.2fr} .slot{min-height:120px}}
+    @media(min-width:860px){.plot-grid{grid-template-columns:1fr 1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <a class="hub-button" href="https://miawizz.github.io/php-app-hub/">← Back to Hub</a>
+    <button class="theme-back" id="themeBack" style="display:none">← Gross Stuff Games</button>
+  </div>
+
+  <section id="homeScreen" class="screen active">
+    <div class="pack-header">
+      <img src="gross-stuff-icon.png" alt="Gross Stuff theme icon" class="pack-icon">
+      <h1>GROSS STUFF</h1>
+      <p>Choose a game and get silly with farts, burps, boogers, stinky stuff, slime, and more.</p>
+    </div>
+    <div class="menu-grid">
+      <button class="menu-card" data-screen="youare"><strong>You Are...</strong><span>Ridiculous physical acting prompts.</span></button>
+      <button class="menu-card" data-screen="sounds"><strong>Who Can Sound Like...</strong><span>Silly sound prompts.</span></button>
+      <button class="menu-card" data-screen="faces"><strong>Make This Face</strong><span>Facial expression prompts.</span></button>
+      
+      <button class="menu-card" data-screen="wyr"><strong>Would You Rather</strong><span>Choose between two imaginary dilemmas.</span></button>
+      <button class="menu-card" data-screen="plot"><strong>Plot Twist</strong><span>Build a silly story together and record it as you go.</span></button>
+      <button class="menu-card" data-screen="doodle"><strong>What Should We Doodle?</strong><span>Shuffle up a werid drawing prompt.</span></button>
+    </div>
+  </section>
+
+  <section id="youareScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff You Are...</h2><p>Tap for a random prompt and act it out.</p></div>
+    <div class="generator-card" data-simple-game="youare"></div>
+  </section>
+
+  <section id="soundsScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff Who Can Sound Like...</h2><p>Use your voice to make the sound.</p></div>
+    <div class="generator-card" data-simple-game="sounds"></div>
+  </section>
+
+  <section id="facesScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff Make This Face</h2><p>Read the situation and make the face - try to freeze like a snapshot!</p></div>
+    <div class="generator-card" data-simple-game="faces"></div>
+  </section>
+
+  
+
+  <section id="wyrScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff Would You Rather</h2><p>Pick one and explain your choice!</p></div>
+    <div class="generator-card" data-simple-game="wyr"></div>
+  </section>
+
+  <section id="plotScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff Plot Twist</h2><p>Start with a title, "Once upon a time," tell the story together, then tap for a random plot twist whenever you need one.</p></div>
+    <div class="rec-card">
+      <h3 style="margin-top:0;color:var(--rust2)">Record Your Story</h3>
+      <div class="plot-out" id="recStatus">Ready to record. Your audio stays on your device.</div>
+      <div class="btns">
+        <button class="btn" id="recStart">Start recording</button>
+        <button class="btn secondary" id="recPause" disabled>Pause</button>
+        <button class="btn secondary" id="recStop" disabled>Stop</button>
+        <button class="btn secondary" id="recPlay" disabled>Play</button>
+        <button class="btn secondary" id="recDownload" disabled>Download</button>
+      </div>
+      <audio id="player" controls style="width:100%;margin-top:8px;display:none"></audio>
+    </div>
+    <div class="plot-grid">
+      <div class="plot-card">
+        <h3>STORY TITLE...</h3>
+        <div class="plot-out" id="titleOut">Tap below to get a title</div>
+        <div class="btns"><button class="btn" id="titleNext">GET A TITLE!</button><button class="btn secondary" id="titleBack">Back</button><button class="btn secondary" id="titleFwd">Forward</button></div>
+      </div>
+      <div class="plot-card">
+        <h3>READY FOR A PLOT TWIST...?</h3>
+        <div class="plot-out" id="twistOut">Tap below for a new idea</div>
+        <div class="btns"><button class="btn" id="twistNext">PLOT TWIST!</button><button class="btn secondary" id="twistBack">Back</button><button class="btn secondary" id="twistFwd">Forward</button></div>
+      </div>
+      <div class="plot-card">
+        <h3>READY TO WRAP IT UP...?</h3>
+        <div class="plot-out" id="wrapOut">Tap below for an ending idea</div>
+        <div class="btns"><button class="btn secondary" id="wrapNext">IDEAS FOR HOW TO END...</button><button class="btn secondary" id="wrapBack">Back</button><button class="btn secondary" id="wrapFwd">Forward</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="doodleScreen" class="screen">
+    <div class="game-header"><h2>Gross Stuff What Should We Doodle?</h2><p>Shuffle an adjective, subject, and action into one ridiculous drawing prompt that you can either draw separately or work on together!</p></div>
+    <div class="slot-card">
+      <div class="slots"><div class="slot" id="slotAdj">WHAT</div><div class="slot" id="slotSubject">SHOULD</div><div class="slot" id="slotAction">WE DOODLE?</div></div>
+      <div class="doodle-sentence" id="doodlePrompt">Tap the button below to shuffle up a Gross Stuff drawing prompt!</div>
+      <div class="btns"><button class="btn" id="doodleNext">What should we doodle?</button></div>
+      <div class="btns"><button class="btn secondary" id="doodleBack">Back</button><button class="btn secondary" id="doodleFwd">Forward</button></div>
+      <div class="btns"><button class="btn secondary" id="doodleSave">Save to Favorites</button></div>
+    </div>
+    <div class="favorites">
+      <div class="fav-head"><h3>Doodle Favorites</h3><div><button class="btn secondary" id="doodleCopy">Copy All</button> <button class="btn secondary" id="doodleClear">Clear</button></div></div>
+      <p class="muted" id="doodleEmpty">No favorites yet.</p><ul class="fav-list" id="doodleFavList"></ul>
+    </div>
+  </section>
+
+  <p class="footer">© 2026 Mia Wisinski, Playful Heart Parenting. For personal use only by purchasers. Please do not share without permission.</p>
+</div>
+<div id="toast"></div>
+
+<script>
+const DATA = {
+  youare: [
+  "You are a giant burp trying to escape someone’s mouth during a very quiet library story time!",
+  "You are a booger hanging on for dear life inside someone’s nose while they’re trying to pick you out!",
+  "You are a teeny tiny fart trying VERY hard to sneak out without anyone noticing.",
+  "You are a stinky sock finally getting washed in the washing machine.",
+  "You are a rotten ham sandwich getting tossed in the trash.",
+  "You are a giant bubble of slime getting stretched farther and farther",
+  "You are a burp shooting out of someone’s mouth and flying across the room",
+  "You are a rotten banana getting stepped on and squished",
+  "You are deodorant getting spread onto the world’s stinkiest armpit",
+  "You are a booger getting flung across the room when someone sneezes you out",
+  "You are a toot trapped inside a pair of tight pants desperately trying to find a way out",
+  "You are 100 poop emojis getting texted to a group text",
+  "You are a giant blob of jelly wobbling on the edge of the counter then falling to the floor and getting licked up by the dog",
+  "You are a long armpit hair getting curlier and curlier as it grows",
+  "You are a booger stuck in a clump of nostril hairs and you’re trying to get untangled!",
+  "You are a pig rolling around in the stinky mud and you couldn’t be happier.",
+  "You are a giant clump of earwax getting squished and molded into a tiny candle!",
+  "You are a whoopee cushion getting sat on by a rhino and popping",
+  "You are a slug sneaking into someone’s lunchbox",
+  "You are a cute little turd getting flushed down the toilet",
+  "You are a sticky glob of syrup getting stuck in a grandpa’s mustache",
+  "You are a rotten apple at the bottom of a trash can getting squished by a new load of trash",
+  "You are the cartoon stink lines coming off of a stinky sock",
+  "You are a fruit fly trying to pick which fruit to land on but the person keeps trying to swat you away",
+  "You are a dung beetle rolling up your biggest dung ball yet!",
+  "You are a fart that someone’s been holding in for four hours and you’re finally being let loose and flying freely around the room",
+  "You are a dirty diaper getting tossed into the trash",
+  "You are a plunger trying to unclog a toilet",
+  "You are a giant glob of toothpaste falling off the toothbrush and landing in the sink.",
+  "You are a piece of spinach stuck in someone’s teeth and you’re trying to get out",
+  "You are a rotten banana at the bottom of a backpack getting squished by a bunch of books",
+  "You are a big glob of snot dangling from a grandma’s nose",
+  "You are the water swirling around in the toilet having a great time",
+  "You are a long string of drool hanging off the end of a bulldog’s tongue",
+  "You are a stinky pile of underwear getting tossed into the hamper",
+  "You are a stinky piece of cheese getting shredded by a cheese grater",
+  "You are a dog toy getting slobbered all over as the dog chews on you",
+  "You are a tissue getting filled with snot",
+  "You are a giant fart rumbling around in someone’s belly before you make your grand exit",
+  "You are a stinky rotten egg getting dropped on the floor and cracking",
+  "You are a piece of cereal that’s been sitting in milk way too long and you’re getting soggy and falling apart",
+  "You are a moldy applesauce pouch that got dropped under a toddler’s carseat and you’re getting jiggled around as the car drives",
+  "You are a carrot getting eaten by a horse with really bad breath",
+  "You are the air in the stinkiest dog breath flying around, torturing everyone’s nostrils",
+  "You are a bag filled with doggy poop getting swung around and around by the dog’s owner",
+  "You are a giant blob of mashed potatoes sliding off a spoon in slow motion.",
+  "You are a diaper getting filled by a baby’s poopy blowout",
+  "You are a rotten carton of milk surprising everyone with your stink when the fridge opens",
+  "You are a sticky wad of gum stuck to the bottom of someone’s shoe and going for a ride.",
+  "You are a piece of bubble gum getting smacked around as someone chews you and blows you into a bubble, then pop!",
+  "You are a little piece of toilet paper stuck to someone’s shoe and getting dragged all over the mall.",
+  "You are a fly landing on a piece of horse poop.",
+  "You are a slow, long, silent fart escaping from a dog’s booty",
+  "You are a grape getting sat on and squished by a giant pair of buttcheeks",
+  "You are a fly that got stuck in someone’s beard and you’re trying to untangle yourself and break free",
+  "You are a garbage can being lifted and dumped out into the garbage truck",
+  "You are a giant snot bubble growing out of someone’s nose and popping",
+  "You are a skunk spraying your stink spray into the air because you got startled by a loud noise",
+  "You are a turtle breathing through your bottom underwater",
+  "You are a mega fart bubble coming out of a blue whale, large enough for a whole house to fit inside",
+  "You are a bunch of farts bubbling up in the bathtub from a very gassy kid",
+  "You are a giant pile of cow poop getting scooped up and dumped in a wheelbarrow to be used as fertilizer in a garden",
+  "You are a rotten peanut butter and jelly sandwich getting eaten by a raccoon"
+],
+  sounds: [
+  "Someone letting out a HUGE burp after drinking a fizzy soda",
+  "A little booger flying through the air, having the time of its life after someone sneezed it out",
+  "A tiny little fart trying to sneak out bit by bit without anyone noticing",
+  "A grandma farting a little bit each time she takes a step as she goes up the stairs",
+  "A piece of stinky moldy cheese trying to convince the other food in the fridge to come to its party",
+  "Someone slurping up the world’s longest noodle",
+  "A glob of mayonnaise getting licked up by the family dog off the floor",
+  "A giant booger bragging to all the other boogers about how big it is and then it gets picked",
+  "A stomach growling because it is REALLY hungry",
+  "A tissue that’s so excited to get used for the first time until it realizes it’s about to get filled with snot",
+  "A dung beetle bragging to all his friends about how big his dung ball is",
+  "A fart that somehow sounds like an opera song",
+  "A giant fart that just keeps going and going and going... and then when you think it’s over it’s STILL going",
+  "Two buttcheek besties giggling and telling each other secrets",
+  "A baby’s diaper bragging that it’s been dry all day but then getting filled up",
+  "All the pieces of trash in the trash can introducing themselves to each other",
+  "Two fruit flies arguing over who gets the banana",
+  "A slow, almost silent dog fart",
+  "A poop having a lot of fun getting flushed down the toilet like it’s a roller coaster ride",
+  "A fart that sounds like it’s trying to tell you a secret",
+  "A fart that sounds really nervous",
+  "A fart that sounds like it’s laughing",
+  "A fart that sounds VERY angry",
+  "A fart that sounds like it’s saying, “I’m sorry”",
+  "A fart that sounds like it just got some REALLY exciting news",
+  "A fart that sounds like it’s trying to scare someone",
+  "A fart that sounds like it’s crying",
+  "A fart that sounds like it’s singing a beautiful love song",
+  "A fart that sounds like it’s asking for another piece of pizza",
+  "A fart that sounds like it’s telling a really dramatic story",
+  "A fart that sounds like it’s trying to sneak past a sleeping baby",
+  "A fart that sounds extremely confused",
+  "A burp that sounds like a pop song",
+  "A burp that startled itself by how loud it was",
+  "A snot bubble warning its owner that it’s getting too big and then popping",
+  "Someone hiccuping and burping at the same time",
+  "Buttcheek sports commentators judging farts on a scale of 1-10",
+  "A fly that just discovered the stinkiest trash can and it’s calling for all its friends to come over",
+  "A pig startling itself by letting out a giant fart",
+  "A donkey laughing and accidentally farting at the same time which makes it laugh (and fart) all over again"
+],
+  faces: [
+  "You just accidentally farted on a crowded elevator and you’re trying to play it cool.",
+  "You just did a huge loud fart in line at the grocery store and everyone turned and looked at you.",
+  "You just stepped in a huge pile of cow poop",
+  "You felt something stick on your toe and realized there’s a giant booger stuck to it",
+  "You just smelled the stinkiest fart EVER and you’re trying to figure out who did it.",
+  "You just burped and it sounded exactly like the song “Do You Know the Muffin Man?” and everyone is impressed, especially you.",
+  "You just took off your shoes and realized the horrible smell everyone has been complaining about is YOUR FEET.",
+  "You just stepped in chewed up bubblegum someone had spit out on the sidewalk (WHY DO PEOPLE DO THAT?!)",
+  "You just opened an old lunchbox you found from last summer and all your old moldy lunch is still in it",
+  "You were petting a cow and it burped in your face",
+  "You just reached into your pocket and felt something wet and squishy and have no idea what it is",
+  "You just noticed someone has a giant booger hanging out of their nose, and you’re trying to give them a hint without embarrassing them",
+  "You just realized you forgot to change your underwear for the last three days",
+  "You look in the mirror and realize your armpits are so stinky there are actual cartoon stink lines coming off of them",
+  "Someone just gave you a candle as a gift and then proudly announced they made it out of their own earwax",
+  "Your dog just licked your foot after they were licking their own booty",
+  "You just took a huge bite of your cereal and realized the milk is very spoiled",
+  "You just caught a whiff of your own armpit and it almost knocked you out",
+  "You’ve got a giant sharp booger in your nose and you’re trying not to pick it in public",
+  "You just sat down on something warm and squishy and you’re VERY scared to look.",
+  "You just watched someone sneeze and a butterfly flew out of their nose",
+  "You just accidentally clogged the toilet at your new friend’s house",
+  "You just put on a pair of socks and then stepped in a mystery puddle",
+  "You just just heard the loudest burp of your life but no clue where it came from",
+  "You just opened the fridge and it smells like rotten eggs",
+  "You just watched someone dip a pickle into a glass of orange juice and take a bite.",
+  "You just bit into a sandwich and realized it’s peanut-butter-mayonnaise-banana-ham-and-chocolate",
+  "Your chair just made a loud squeaky noise and everyone looked at you like you tooted",
+  "You just found a bowl of rotten strawberries under your bed"
+],
+  wyr: [
+  "Would you rather have farts that always sound like a trumpet or burps that always sound like an opera singer?",
+  "Would you rather have permanently stinky feet or permanently stinky armpits?",
+  "Would you rather have to smell a stranger’s stinky sock for 10 seconds or wear your own dirty socks on your hands for an hour?",
+  "Would you rather have one giant booger the size of a grape or 100 teeny-tiny boogers?",
+  "Would you rather have to announce “I HAVE TO FART!” every time you NEED to fart or “WHOA NELLIE THAT WAS A GOOD ONE!” every time AFTER you fart?",
+  "Would you rather have your room permanently smell a little bit like a faint, stale fart, or have a soundtrack in your room playing fart sounds quietly around the clock?",
+  "Would you rather have to eat a bowl of cereal with pickle juice instead of milk or dip every bite of pizza you eat in orange juice?",
+  "Would you rather have a booger stuck to your elbow for an entire day or a long piece of toilet paper stuck to your shoe for an entire day?",
+  "Would you rather have to wear the same pair of socks for three months or never be allowed to wear socks again?",
+  "Would you rather have a pet fly that follows you everywhere buzzing around or two pet worms that live in your pocket and you have to transfer it to your outfit each day and scoop in fresh dirt for them.",
+  "Would you rather have every fart be REALLY loud but have no smell or every fart be completely silent but REALLY stinky?",
+  "Would you rather your earwax smell like birthday cake or your boogers smell like buttered popcorn?",
+  "Would you rather have to brush your teeth with rotten egg flavored toothpaste or wash your hair with mayonnaise (and you can never quite fully rinse it out?",
+  "Would you rather have to walk barefoot through squishy mud or wear soaking-wet socks for an hour?",
+  "Would you rather have a giant tongue like a dog whenever you stick it out or a nose that gets twice as big every time you sneeze but then goes back to normal?",
+  "Would you rather have to swim through a pool filled with dog drool or bounce on a trampoline with 5,000 boogers on it?",
+  "Would you rather have to sit next to someone on a plane who burps every 30 seconds or someone who farts every ten minutes (it’s a five-hour flight)?",
+  "Would you rather have a belly button that whistles or knees that make fart noises every time you bend them?",
+  "Would you rather have to clean up a giant pile of cow poop first thing every morning or empty the world’s stinkiest garbage can first thing every morning?",
+  "Would you rather have a two-foot-long snot string come out every time you sneeze or a bunch of green bubbles come out every time you burp?",
+  "Would you rather have to eat an entire pot of beans for breakfast or for dinner every day?",
+  "Would you rather have a garbage truck as your family car or a giant toilet-shaped car that makes a flushing noise every time you press the breaks?",
+  "Would you rather have to wear an outfit made entirely out of dirty socks for a whole day or a hat made out of old banana peels for a whole day (and it’s attracting flies)?",
+  "Would you rather have to change your name to “Fart Nugget [your last name]” or “Booger Booty [your last name]”",
+  "Would you rather have talking butt cheeks that interrupt you all day or armpits that scream every time you raise your arms?",
+  "Would you rather have to run outside and shout “I just picked my nose!!!!” every time you pick your nose or “Pee-YEW! My feet sure do STANK!” every time you take off your shoes (even if they don’t)?",
+  "Would you rather have to take a bath in Jell-O or shower in maple syrup?",
+  "Would you rather have your room smell like stinky dog breath or have to wear perfume that smells like broccoli?",
+  "Would you rather have to change your name to “STINKBUG [your last name] or TOE FUNGUS [your last name]”",
+  "Would you rather have a giant booger hanging from your nose during your school picture or accidentally fart right when the photographer takes the picture?",
+  "Would you rather have your breath smell like onions forever or your feet smell like old cheese forever?",
+  "Would you rather have to sleep in a giant dirty laundry basket or eat every meal sitting next to a stinky garbage can?"
+],
+  titles: [
+  "The Fart That Refused to Go Home",
+  "Benny and the World’s Biggest Booger",
+  "The Mystery of the Stinky Bedroom",
+  "Grandpa’s Extremely Embarrassing Burp",
+  "The Stinkiest Socks in the World",
+  "The Day Everyone’s Farts Became Visible",
+  "The Booger Who Wanted to Be Famous",
+  "The Mystery of the Smelly Lunchbox",
+  "The Great Garbage Can Adventure",
+  "The Fart That Saved the Day",
+  "Betty Boodle and the Giant Ball of Earwax",
+  "The Stinky Foot Who Just Wanted a Friend",
+  "The Mystery of the Missing Toilet Paper",
+  "The 45th Annual International Burping Olympics",
+  "The Little Booger With a BIG Dream",
+  "Sammy the World’s Grossest Sandwich",
+  "The Stinkiest Armpit in the history of mankind",
+  "Gary the Garbage can who came to life",
+  "The Great Cow Poop Disaster",
+  "Three Boogers, a Stinky Shoe, and a Librarian Named Susan",
+  "The Fart Heard Round the World",
+  "Ralph the rotten egg who wanted to be a Broadway star",
+  "The Mystery of the Stink Under the Couch",
+  "Frankie and the Talking Butt cheeks",
+  "The Great Family Fart-Off"
+],
+  twists: [
+  "Suddenly, a horrible smell filled the room. Everyone slowly turned and looked at each other...",
+  "Just then, they heard a tiny burp followed by a voice saying, “Excuse me!” They looked all around but couldn’t figure out where it was coming from until they looked down…",
+  "Suddenly, the ground rumbled and the earth shook and they heard what could only be described as the loudest fart sound in history…",
+  "Just then, a giant glob of green slime fell from above and landed right in front of them.",
+  "Suddenly, they heard a loud, “BUUUUURP!” and looked over to see a cow chewing on a piece of grass, staring at them intensely",
+  "Just then, a dog ran into the room carrying the stinkiest sock anyone had EVER smelled.",
+  "Suddenly, a fly buzzed past their ear and whispered, “I’ve found it! I’ve found the largest pile of dog poop in the yard! Hurry, come see!!”",
+  "Just then, they noticed a giant booger stuck to something it DEFINITELY should not have been stuck to.",
+  "Suddenly a little boy ran up saying, “Hey Mister! Wanna hear how good I am at making armpit fart sounds!?”",
+  "Suddenly, a garbage truck screeched to a stop outside and the driver yelled, “QUICK! We need your help!”",
+  "Just then, they heard a strange squishing sound underneath their feet. They were almost too scared to look down...",
+  "Just then the next door neighbor hurried over yelling, “Help! I’ve clogged my toilet again! Can I borrow your plunger?!”",
+  "Just then, a very fancy-looking woman walked into the room, sniffed the air, and announced, “Oh dear. What IS that smell?”",
+  "Suddenly, a little voice piped up and said, “HEY, you! Just because I’m little doesn’t mean I deserve to be ignored!” It was a microscopic green booger monster!",
+  "Just then, the unmistakable smell of rotten moldy cheese filled the air and they realized it had been a while since they cleaned the fridge…",
+  "Suddenly, out from under a nearby pile of dirty laundry a little troll crawled out and said, “That’s the stinkiest laundry I’ve ever smelled… I LOVED it!”",
+  "Just then, they heard someone yell, “WHO PUT A BOOGER ON THE DOORKNOB?!”",
+  "Suddenly, a cow wandered into the yard, looked directly at them, and let out a HUGE fart.",
+  "Just then, the phone rang. “Hello?” they answered. “This is the Department of Mysterious Smells. We need to speak with you immediately. Come down to the station at once.”",
+  "Suddenly, they noticed everyone around them was holding their noses... except for one person who seemed to LOVE the smell.",
+  "Just then, a tiny fart floated by and whispered, “Please don’t tell anyone where I came from… (YOUR BUTT)”",
+  "Just then the sound of giggling and whispering got louder and louder and they realized their own BUTT CHEEKS were TALKING!",
+  "Suddenly, the garbage can lid slowly lifted and two little eyes peeked out from underneath it… it was a raccoon with a dirty diaper in its mouth!",
+  "Just then, someone screamed, “NO, DON’T SIT THERE!” But it was already too late... the lady next door had just sat down in a huge pile of cow dung.",
+  "Suddenly, a trail of something green and slimy appeared on the floor and they could hear the sound of a kid giggling… what was it?!",
+  "Just then, an old man sniffed the air and said, “Whoops. Sorry. I ate a whole can of beans for lunch.”",
+  "Just then, something large and green started rolling down a nearby hill… it was a booger avalanche!!!",
+  "Suddenly, a horrible smell drifted past them, followed by a tiny voice saying, “Care for some hard boiled eggs?”",
+  "Just then, they heard a loud PFFFFFT! Everyone froze. The dog looked guilty…",
+  "Suddenly the unmistakable sound of a fart blasted through the air but this wasn’t just any fart… it sounded like the most beautiful melody ever…"
+],
+  wraps: [
+  "End the story with something happy",
+  "Finish by solving the main problem",
+  "Have the characters feel safe again",
+  "Let everyone get what they were hoping for",
+  "Show how things have changed since the beginning",
+  "End with the characters making a plan for next time",
+  "Wrap it up with a feeling — excitement, relief, joy, or calm",
+  "Leave the story open so it could continue later",
+  "End in the same place or situation where it began",
+  "Give the final line to the main character"
+],
+  adjectives: [
+  "stinky",
+  "slimy",
+  "hairy",
+  "soggy",
+  "moldy",
+  "squishy",
+  "sticky",
+  "crusty",
+  "sweaty",
+  "muddy",
+  "wiggly",
+  "lumpy",
+  "smelly",
+  "teeny-tiny",
+  "gigantic",
+  "fuzzy",
+  "grumpy",
+  "fancy",
+  "sparkly",
+  "confused",
+  "three-eyed",
+  "polka-dotted",
+  "super-stretchy",
+  "googly-eyed",
+  "suspicious"
+],
+  subjects: [
+  "booger",
+  "fart",
+  "burp",
+  "stinky sock",
+  "garbage can",
+  "dirty diaper",
+  "dung beetle",
+  "rotten banana",
+  "rotten egg",
+  "moldy sandwich",
+  "glob of earwax",
+  "blob of slime",
+  "fruit fly",
+  "garbage truck",
+  "skunk",
+  "slug",
+  "dirty underwear",
+  "plunger",
+  "toilet",
+  "piece of stinky cheese",
+  "pile of cow poop",
+  "snot bubble",
+  "armpit",
+  "buttcheek",
+  "raccoon"
+],
+  actions: [
+  "trying to sneak out without anyone noticing",
+  "having a farting contest",
+  "digging through a garbage can",
+  "rolling around in a mud puddle",
+  "trying to unclog a toilet",
+  "hiding under someone’s bed",
+  "trying to escape from a dirty laundry basket",
+  "buzzing around a rotten banana",
+  "trying to get unstuck from someone’s shoe",
+  "taking a ride in a garbage truck",
+  "trying to find where that horrible smell is coming from",
+  "having a burping contest",
+  "hiding inside someone’s lunchbox",
+  "trying to climb out of a toilet",
+  "rolling a giant ball of dung",
+  "trying to sneak into someone’s pocket",
+  "jumping into a pile of dirty laundry",
+  "trying to get away from a hungry fly",
+  "having a bath in a giant bowl of slime",
+  "trying to convince everyone that it DOESN’T stink",
+  "getting chased by a roll of toilet paper",
+  "trying to win the Stinkiest Thing in the World competition",
+  "having a picnic next to a garbage can",
+  "trying to make the world’s loudest fart sound",
+  "taking a nap inside a stinky sneaker",
+  "jumping on a pogo stick",
+  "trying to hula hoop",
+  "riding a bicycle",
+  "playing the drums",
+  "doing ballet",
+  "singing karaoke",
+  "walking a tiny dog",
+  "making pancakes",
+  "blowing bubbles",
+  "playing hide-and-seek",
+  "having a pillow fight",
+  "doing a cartwheel",
+  "playing video games",
+  "eating an ice cream cone",
+  "going down a giant waterslide",
+  "riding a skateboard",
+  "trying to juggle",
+  "having a tea party",
+  "dancing at a fancy wedding",
+  "trying to take a selfie",
+  "going grocery shopping",
+  "building a sandcastle",
+  "jumping on a trampoline",
+  "getting a haircut",
+  "trying to bake a birthday cake"
+]
+};
+
+const NS = "gross-stuff-pack";
+const screens = document.querySelectorAll(".screen");
+const themeBack = document.getElementById("themeBack");
+
+function showScreen(name) {
+  screens.forEach(s => s.classList.remove("active"));
+  const target = document.getElementById(name + "Screen");
+  if (target) target.classList.add("active");
+  themeBack.style.display = name === "home" ? "none" : "inline-block";
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-screen]").forEach(btn => btn.addEventListener("click", () => showScreen(btn.dataset.screen)));
+themeBack.addEventListener("click", () => showScreen("home"));
+
+if (new URLSearchParams(location.search).get("circle") === "1") document.body.classList.add("circle-mode");
+
+function shuffle(a) {
+  for (let i=a.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function toast(msg) {
+  const el=document.getElementById("toast"); el.textContent=msg; el.classList.add("show");
+  clearTimeout(window.__toastTimer); window.__toastTimer=setTimeout(()=>el.classList.remove("show"),1200);
+}
+function makeDeck(key, items) {
+  const base = `${NS}_${key}`;
+  const version = JSON.stringify(items).length + ":" + items.length;
+  const load = (k,f) => { try { return JSON.parse(localStorage.getItem(base+"_"+k)) ?? f; } catch { return f; } };
+  let order=load("order",null), idx=Number(localStorage.getItem(base+"_idx")||0), hist=load("hist",[]), pos=Number(localStorage.getItem(base+"_pos")||0);
+  if (localStorage.getItem(base+"_ver") !== version || !Array.isArray(order) || order.length!==items.length) {
+    order=shuffle([...Array(items.length).keys()]); idx=0; hist=[]; pos=0;
+  }
+  function save() {
+    localStorage.setItem(base+"_ver",version); localStorage.setItem(base+"_order",JSON.stringify(order));
+    localStorage.setItem(base+"_idx",String(idx)); localStorage.setItem(base+"_hist",JSON.stringify(hist)); localStorage.setItem(base+"_pos",String(pos));
+  }
+  function next() {
+    if (pos<hist.length) hist.splice(pos);
+    let pick=order[idx++]; 
+    if (idx>=order.length) { const avoid=pick; order=shuffle([...Array(items.length).keys()]); if(items.length>1 && order[0]===avoid) [order[0],order[1]]=[order[1],order[0]]; idx=0; }
+    hist.push(pick); if(hist.length>500) hist.shift(); pos=hist.length; save(); return pick;
+  }
+  function back() { if(pos<=1)return null; pos--; save(); return hist[pos-1]; }
+  function fwd() { if(pos>=hist.length)return null; const i=hist[pos]; pos++; save(); return i; }
+  function current() { return pos>0 && hist.length ? hist[pos-1] : null; }
+  function canBack() { return pos>1; } function canFwd() { return pos<hist.length; }
+  save(); return {items,next,back,fwd,current,canBack,canFwd};
+}
+
+function setupSimpleGame(key, buttonText) {
+  const root=document.querySelector(`[data-simple-game="${key}"]`);
+  const deck=makeDeck(key, DATA[key]);
+  root.innerHTML = `
+    <div class="btns"><button class="btn next">${buttonText}</button></div>
+    <div class="btns"><button class="btn secondary back">Back</button><button class="btn secondary fwd">Forward</button></div>
+    <div class="btns"><button class="btn secondary save">Save to Favorites</button></div>
+    <div class="prompt">Tap the button to get a Space prompt!</div>
+    <div class="favorites">
+      <div class="fav-head"><h3>Favorites</h3><div><button class="btn secondary copy">Copy All</button> <button class="btn secondary clear">Clear</button></div></div>
+      <p class="muted empty">No favorites yet. Save any you love.</p><ul class="fav-list"></ul>
+    </div>`;
+  const p=root.querySelector(".prompt"), back=root.querySelector(".back"), fwd=root.querySelector(".fwd"), save=root.querySelector(".save"), list=root.querySelector(".fav-list"), empty=root.querySelector(".empty");
+  const favKey=`${NS}_${key}_favs`;
+  let favs=[]; try{favs=JSON.parse(localStorage.getItem(favKey)||"[]")}catch{}
+  function update() {
+    back.disabled=!deck.canBack(); fwd.disabled=!deck.canFwd();
+    const i=deck.current(); save.disabled=i==null; save.textContent=(i!=null && favs.includes(i))?"Saved":"Save to Favorites";
+  }
+  function renderFavs() {
+    list.innerHTML=""; empty.style.display=favs.length?"none":"block";
+    favs.forEach(i=>{const li=document.createElement("li");li.className="fav-item";const t=document.createElement("div");t.textContent=DATA[key][i];const b=document.createElement("button");b.textContent="Remove";b.onclick=()=>{favs=favs.filter(x=>x!==i);localStorage.setItem(favKey,JSON.stringify(favs));renderFavs();update();};li.append(t,b);list.appendChild(li);});
+  }
+  root.querySelector(".next").onclick=()=>{p.textContent="Here you go...!";setTimeout(()=>{const i=deck.next();p.textContent=DATA[key][i];update();},180)};
+  back.onclick=()=>{const i=deck.back();if(i!=null)p.textContent=DATA[key][i];update();};
+  fwd.onclick=()=>{const i=deck.fwd();if(i!=null)p.textContent=DATA[key][i];update();};
+  save.onclick=()=>{const i=deck.current();if(i==null)return;if(!favs.includes(i)){favs.push(i);localStorage.setItem(favKey,JSON.stringify(favs));renderFavs();toast("Saved to favorites");}update();};
+  root.querySelector(".copy").onclick=()=>{if(!favs.length)return toast("No favorites to copy");navigator.clipboard.writeText(favs.map(i=>DATA[key][i]).join("\n"));toast("Favorites copied");};
+  root.querySelector(".clear").onclick=()=>{favs=[];localStorage.setItem(favKey,"[]");renderFavs();update();toast("Favorites cleared");};
+  const i=deck.current(); if(i!=null)p.textContent=DATA[key][i]; renderFavs(); update();
+}
+
+setupSimpleGame("youare","You are...");
+setupSimpleGame("sounds","Who can sound like...");
+setupSimpleGame("faces","Make this face");
+
+
+setupSimpleGame("wyr","Would you rather...");
+
+function wirePlot(prefix, items, outId, nextId, backId, fwdId) {
+  const deck=makeDeck("plot_"+prefix,items), out=document.getElementById(outId), next=document.getElementById(nextId), back=document.getElementById(backId), fwd=document.getElementById(fwdId);
+  function update(){back.disabled=!deck.canBack();fwd.disabled=!deck.canFwd();}
+  next.onclick=()=>{const i=deck.next();out.textContent=items[i];update();};
+  back.onclick=()=>{const i=deck.back();if(i!=null)out.textContent=items[i];update();};
+  fwd.onclick=()=>{const i=deck.fwd();if(i!=null)out.textContent=items[i];update();};
+  const i=deck.current(); if(i!=null)out.textContent=items[i]; update();
+}
+wirePlot("title",DATA.titles,"titleOut","titleNext","titleBack","titleFwd");
+wirePlot("twist",DATA.twists,"twistOut","twistNext","twistBack","twistFwd");
+wirePlot("wrap",DATA.wraps,"wrapOut","wrapNext","wrapBack","wrapFwd");
+
+const doodleKey=`${NS}_doodle`;
+let doodleHist=[]; try{doodleHist=JSON.parse(localStorage.getItem(doodleKey+"_hist")||"[]")}catch{}
+let doodlePos=Number(localStorage.getItem(doodleKey+"_pos")||doodleHist.length);
+let doodleFavs=[]; try{doodleFavs=JSON.parse(localStorage.getItem(doodleKey+"_favs")||"[]")}catch{}
+const $=id=>document.getElementById(id);
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function makeDoodle(){return{adjective:rand(DATA.adjectives),subject:rand(DATA.subjects),action:rand(DATA.actions)}}
+function doodleText(p){return p.adjective.charAt(0).toUpperCase()+p.adjective.slice(1)+" "+p.subject+" "+p.action}
+function showDoodle(p){$("slotAdj").textContent=p.adjective;$("slotSubject").textContent=p.subject;$("slotAction").textContent=p.action;$("doodlePrompt").textContent=doodleText(p)}
+function saveDoodleState(){localStorage.setItem(doodleKey+"_hist",JSON.stringify(doodleHist));localStorage.setItem(doodleKey+"_pos",String(doodlePos));}
+function currentDoodle(){return doodlePos>0?doodleHist[doodlePos-1]:null}
+function sameDoodle(a,b){return a&&b&&a.adjective===b.adjective&&a.subject===b.subject&&a.action===b.action}
+function updateDoodle(){
+  $("doodleBack").disabled=doodlePos<=1;$("doodleFwd").disabled=doodlePos>=doodleHist.length;
+  const p=currentDoodle();$("doodleSave").disabled=!p;$("doodleSave").textContent=p&&doodleFavs.some(f=>sameDoodle(f,p))?"Saved":"Save to Favorites";
+}
+function renderDoodleFavs(){
+  const list=$("doodleFavList");list.innerHTML="";$("doodleEmpty").style.display=doodleFavs.length?"none":"block";
+  doodleFavs.forEach((p,i)=>{const li=document.createElement("li");li.className="fav-item";const t=document.createElement("div");t.textContent=doodleText(p);const b=document.createElement("button");b.textContent="Remove";b.onclick=()=>{doodleFavs.splice(i,1);localStorage.setItem(doodleKey+"_favs",JSON.stringify(doodleFavs));renderDoodleFavs();updateDoodle();};li.append(t,b);list.appendChild(li);});
+}
+$("doodleNext").onclick=()=>{if(doodlePos<doodleHist.length)doodleHist.splice(doodlePos);const p=makeDoodle();doodleHist.push(p);if(doodleHist.length>500)doodleHist.shift();doodlePos=doodleHist.length;let c=0;const int=setInterval(()=>{$("slotAdj").textContent=rand(DATA.adjectives);$("slotSubject").textContent=rand(DATA.subjects);$("slotAction").textContent=rand(DATA.actions);if(++c>=9){clearInterval(int);showDoodle(p)}},65);saveDoodleState();updateDoodle();};
+$("doodleBack").onclick=()=>{if(doodlePos>1){doodlePos--;showDoodle(currentDoodle());saveDoodleState();updateDoodle();}};
+$("doodleFwd").onclick=()=>{if(doodlePos<doodleHist.length){doodlePos++;showDoodle(currentDoodle());saveDoodleState();updateDoodle();}};
+$("doodleSave").onclick=()=>{const p=currentDoodle();if(p&&!doodleFavs.some(f=>sameDoodle(f,p))){doodleFavs.push(p);localStorage.setItem(doodleKey+"_favs",JSON.stringify(doodleFavs));renderDoodleFavs();toast("Saved to favorites");}updateDoodle();};
+$("doodleCopy").onclick=()=>{if(!doodleFavs.length)return toast("No favorites to copy");navigator.clipboard.writeText(doodleFavs.map(doodleText).join("\n"));toast("Favorites copied");};
+$("doodleClear").onclick=()=>{doodleFavs=[];localStorage.setItem(doodleKey+"_favs","[]");renderDoodleFavs();updateDoodle();toast("Favorites cleared");};
+if(doodleHist.length){doodlePos=doodleHist.length;showDoodle(currentDoodle())} renderDoodleFavs();updateDoodle();
+
+let mediaRecorder=null, mediaStream=null, chunks=[], blobUrl=null;
+const recStart=$("recStart"),recPause=$("recPause"),recStop=$("recStop"),recPlay=$("recPlay"),recDownload=$("recDownload"),recStatus=$("recStatus"),player=$("player");
+const canPause=!!(window.MediaRecorder&&MediaRecorder.prototype&&typeof MediaRecorder.prototype.pause==="function");
+if(!canPause)recPause.style.display="none";
+function pickMime(){for(const t of ["audio/mp4;codecs=aac","audio/mp4","audio/webm;codecs=opus","audio/webm"])if(window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))return t;return""}
+function ext(m){m=(m||"").toLowerCase();return m.includes("mp4")?"m4a":m.includes("webm")?"webm":"audio"}
+recStart.onclick=async()=>{recStart.disabled=true;try{mediaStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});const mime=pickMime();mediaRecorder=new MediaRecorder(mediaStream,mime?{mimeType:mime}:undefined);chunks=[];mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};mediaRecorder.onstart=()=>recStatus.textContent="Recording…";mediaRecorder.onpause=()=>recStatus.textContent="Paused";mediaRecorder.onresume=()=>recStatus.textContent="Recording…";mediaRecorder.onstop=()=>{const type=mediaRecorder.mimeType||mime||"audio/webm";const blob=new Blob(chunks,{type});if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(blob);player.src=blobUrl;player.style.display="block";recPlay.disabled=false;recDownload.disabled=false;recStatus.textContent="Recording ready to play or download";if(mediaStream){mediaStream.getTracks().forEach(t=>t.stop());mediaStream=null};recDownload.onclick=()=>{const a=document.createElement("a");a.href=blobUrl;a.download="gross-stuff-plot-twist-story."+ext(type);document.body.appendChild(a);a.click();a.remove()}};mediaRecorder.start();recStop.disabled=false;if(canPause)recPause.disabled=false;recPlay.disabled=true;recDownload.disabled=true;}catch(e){recStatus.textContent="Microphone not available or permission denied.";recStart.disabled=false;}};
+recPause.onclick=()=>{if(!mediaRecorder)return;if(mediaRecorder.state==="recording"){mediaRecorder.pause();recPause.textContent="Resume"}else if(mediaRecorder.state==="paused"){mediaRecorder.resume();recPause.textContent="Pause"}};
+recStop.onclick=()=>{if(mediaRecorder&&mediaRecorder.state!=="inactive")mediaRecorder.stop();recStart.disabled=false;recStop.disabled=true;if(canPause){recPause.disabled=true;recPause.textContent="Pause"}};
+recPlay.onclick=()=>{if(player.src)player.play()};
+</script>
+</body>
+</html>
